@@ -1,0 +1,62 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <form [formGroup]="searchForm">
+      <div class="row g-3">
+        <div class="col-md-5">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search repositories"
+            formControlName="query"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Language (optional)"
+            formControlName="language"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <select class="form-select" formControlName="sort">
+            <option value="stars">Stars</option>
+            <option value="forks">Forks</option>
+            <option value="updated">Recently Updated</option>
+          </select>
+        </div>
+
+        <div class="col-md-1 d-grid">
+          <button type="submit" class="btn btn-primary" (click)="onSearch()">
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+@if (loading()) {
+    <div class="text-center">
+  <div class="spinner-border text-primary"></div>
+</div>
+}
+
+
+<ul class="list-group">
+    @for(repo of repos(); track $index) {
+        <li
+    class="list-group-item list-group-item-action"
+    (click)="onRepoSelect(repo)"
+    style="cursor: pointer;"
+  >
+    <strong>{{ repo.full_name }}</strong>
+    <br />
+    ⭐ {{ repo.stargazers_count }} | 🍴 {{ repo.forks_count }}
+    <br />
+    <small>{{ repo.description }}</small>
+  </li>
+    }
+</ul>
